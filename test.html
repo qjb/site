@@ -1,0 +1,65 @@
+<script id="t_test" type="text/x-jsrender">
+    <h3>欢迎使用生产测试程序</h3>
+
+<div class="card">
+<div>当前布局: 行数:{{h}}, 列数:{{w}}, 灯珠总数:{{n}}</div><hr>
+<div class="row">
+    <div class="4 col card">
+<div class="w-100">前景色1: <input type="color" id="c0" value="{{c0}}" oninput="ccb('c0')"><button onclick="add_color('c0')">添加</button></div>
+<div class="w-100">前景色2:   <input type="color" id="c1" value="{{c1}}" oninput="ccb('c1')"><button onclick="add_color('c1')">添加</button></div>
+<div class="w-100">前景色3:  <input type="color" id="c2" value="{{c2}}" oninput="ccb('c2')"><button onclick="add_color('c2')">添加</button></div>
+<div class="w-100">前景色4:  <input type="color" id="c3" value="{{c3}}" oninput="ccb('c3')"><button onclick="add_color('c3')">添加</button></div>
+<div class="w-100">背景色1:  <input type="color" id="c4" value="{{c4}}" oninput="ccb('c4')"><button onclick="add_color('c4')">添加</button></div>
+
+ <div class="w-100">背景清除: <input type="checkbox" id="clr" checked></div>
+ <div class="w-100"><span id="colors"></span><button onclick="clear_color()">清空已选颜色</button></div>
+ <div class="w-100">自动测试间隔时间: <span id="c_runinterval">200</span>ms<br><input   class="w-100" type="range" id="runinterval" value="200" min="20" max="2000" onchange="intervalChanged()"></div>
+   </div>
+   <div class="8 col card">
+
+       <div>行选择: <span id="c_startRow">{{startRow}}</span> - <span id="c_endRow">{{endRow}}</span></div>
+       <div class="row">
+           <div class="5 col">起始行: <input type="text" id="i_startRow" oninput="iccb('startRow')" value="0"><button onclick="srow_inc()">+</button><button onclick="srow_dec()">-</button></div>
+           <div class="7 col"><input class="w-100" type="range" id="startRow" value="0" min="0" max="{{rowMax}}" onchange="ccb('startRow')"></div>
+      </div>       <div class="row">
+
+           <div class="5 col">结束行:<input type="text" id="i_endRow" oninput="iccb('endRow')" value="{{endRow}}"><button onclick="erow_inc()">+</button><button onclick="erow_dec()">-</button></div>
+            <div class="7 col"><input class="w-100" type="range" id="endRow" value="{{endRow}}" min="0" max="{{rowMax}}" onchange="ccb('endRow')"></div>
+        </div>
+
+            <hr style="height:2px">
+
+       <div>列选择:<span id="c_startCol">{{startCol}}</span> - <span id="c_endCol">{{endCol}}</span></div>
+           起始列:<input type="text" id="i_startCol" oninput="iccb('startCol')" value="0"><button onclick="scol_inc()">+</button><button onclick="scol_dec()">-</button>
+            <input   class="w-100" type="range" id="startCol" value="0" min="0" max="{{colMax}}" onchange="ccb('startCol')">
+           结束列: <input type="text" id="i_endCol" oninput="iccb('endCol')" value="{{endCol}}"><button onclick="ecol_inc()">+</button><button onclick="ecol_dec()">-</button>
+           <input   class="w-100" type="range" id="endCol" value="{{endCol}}" min="0" max="{{colMax}}" onchange="ccb('endCol')">
+<hr>
+       <div>地址范围选择: <span id="c_startId">{{startId}}</span> - <span id="c_endId">{{endId}}</span></div>
+           起始地址:<input type="text" id="i_startId" oninput="iccb('startId')" value="0"><button onclick="sid_inc()">+</button><button onclick="sid_dec()">-</button>
+           <input   class="w-100"  type="range" id="startId" value="0" min="0" max="{{idMax}}" onchange="ccb('startId')">
+           结束地址:<input type="text" id="i_endId" oninput="iccb('endId')" value="{{endId}}"><button onclick="eid_inc()">+</button><button onclick="eid_dec()">-</button>
+           <input   class="w-100" type="range" id="endId" value="{{endId}}" min="0" max="{{idMax}}" onchange="ccb('endId')">
+
+
+
+   </div>
+</div>
+
+
+<div class="row">
+<button  class="3 col btn info" onclick="rowTest()">行测试</button>
+<button   class="3 col btn success" onclick="colTest()">列测试</button>
+<button class="3 col btn primary" onclick='clearTest()'>全灯测试</button>
+<button   class="3 col btn info" onclick="idsTest()">指定地址测试</button>
+</div>
+<div class="row">
+<button  class="3 col btn info" onclick="autoPixelStart()">逐灯测试</button>
+<button  class="3 col btn success" onclick="autoRowStart()">逐行测试</button>
+<button  class="3 col btn primary" onclick="autoColStart()">逐列测试</button>
+<button  class="3 col btn success" onclick="autoTestStop()">结束测试</button>
+
+</div>
+</div>
+
+</script>

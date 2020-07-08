@@ -1,0 +1,512 @@
+<script type="text/html" id="t_menu">
+
+<b>智能点控</b><hr>
+   <div class="card p1 b-white">
+<a class="ph2" href="#/">首页</a>
+<a class="ph2" href="#/play">播放控制</a>
+<a class="ph2" href="#/setting">设置</a>
+
+       </div>
+
+</script>
+
+
+
+
+
+
+
+<script type="text/x-templates" id="t_setting">
+    <div class="card">
+<h3>设置</h3>
+<hr>
+<div class="w-100  btn b-info" >  <a  href='#/network'>无线设置</a></div>
+<div class="w-100  btn b-success" ><a       href='#/effect'>效果管理 </a></div>
+
+  <div class="w-100  btn b-info" >   <a       href='#/security'>安全设置</a></div>
+<div  class="w-100  btn b-success"><a      href='#/layout'>布局调整 </a></div>
+
+ <div class="w-100  btn b-info" ><a       href='#/lang'>语言选择</a></div>
+ <div  class="w-100  btn b-success"> <a      href='#/signal'>信号调整</a></div>
+ <div  class="w-100  btn b-info"> <a      href='#/framerate'>播放速率</a></div>
+ <div  class="w-100  btn b-success"> <a      href='#/timer'>定时开关灯</a></div>
+ <div  class="w-100  btn b-info"> <a      href='#/e131'>E1.31参数设定</a></div>
+ <div class="w-100  btn b-success" ><a href="#/" onclick='reboot()'  >重启</a></div>
+
+
+</div>
+</script>
+
+<script type="text/html" id="t_404">
+<h4>404- 服务不存在</h4><hr>
+    <h5> {{hash}}, Query is {{q}}</h5>
+</script>
+
+
+
+
+
+<script id="t_devinfo" type="text/html">
+    <div class="card">
+
+         <h5>欢迎使用</h5>
+<hr>
+
+ <div class="p1 white b-info"> <a href="#/play"  >遥控</a></div>
+ <div class="p1 white b-success"> <a href="#/status" >状态</a></div>
+ <div class="p1 white b-info"> <a href="#/setting" >设置</a></div>
+
+{{#fwup}}
+ <div class="p1 white b-success"><a href="#/upgrade">升级</a></div>
+{{/fwup}}
+
+{{#idn}}
+ <div class="p1 white b-warning"><a href="#/test">生产测试</a></div>
+{{/idn}}
+
+
+{{^security}}
+<br><br>
+<div>
+    安全控制尚未启用, 请输入密码启用安全设置
+</div><hr>
+    <form>
+        <div class="row">
+            <label class="4 col" for="username">名称</label>
+            <input  class="8 col card w-100"" type="text" id="devname" placeholder="Device Name"/>
+          </div>
+          <div class="row">
+            <label class="4 col" for="">访问密码</label>
+            <input class="8 col card w-100" type="password" id="password" placeholder="Password"/>
+          </div>
+
+    </form>
+
+    <button class="w-100 p1 black bg-white b-info" onclick="updateSecurity()">更新</button>
+
+</div>
+
+{{/security}}
+
+{{#security}}
+
+{{^login}}
+        <h4>控制器需要登录才能访问</h4><hr>
+        <form>
+            <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <label for="">输入密码</label>
+                <input type="password" id="password" placeholder="Enter password for security..."/>
+              </div>
+            </div>
+            <hr>
+
+
+        </form>
+               <div class="p1 white bg-white"><button onclick="doLogin()">登录确认</button></div>
+{{/login}}
+
+{{#login}}
+
+{{/login}}
+
+{{/security}}
+
+<div class="card b-gray">
+    <h3>设备运行状态</h3><hr>
+    <h3>{{name}}  {{sn}}</h3>
+    <p>IP地址: {{local}}</p>
+    <p>可用内存: {{fm}}</p>
+    <p>灯的尺寸: {{w}} * {{h}}</p>
+</div>
+
+
+</div>
+</script>
+
+
+
+
+<script id="t_status" type="text/html">
+         <div class="card">
+             <br><br>
+ {{#fm}}
+ <h3>设备运行状态</h3><hr>
+ <h3>{{name}}  {{sn}}</h3>
+ <p>IP地址: {{local}}</p>
+ <p>可用内存: {{fm}}</p>
+ <p>灯的尺寸: {{w}} * {{h}}</p>
+{{/fm}}
+
+{{^fm}}
+<h3>未连接</h3><hr>
+{{/fm}}
+
+</div>
+</script>
+
+
+<script id="t_play" type="text/x-jsrender">
+
+ <div class="card">
+<h3>播放控制</h3>
+
+
+      <button  class="w-100  btn b-info"  onclick="sendReq(M_SET_POWEROFF)">关灯</button>
+    <button  class="w-100  btn b-success"  onclick="sendReq(M_SET_POWERON)">开灯</button>
+
+
+
+  <button class="w-100  btn b-info"  onclick="sendReq(M_PLAY_PREV)">前一效果</button>
+      <button class="w-100  btn b-success"   onclick="sendReq(M_PLAY_NEXT)">后一效果</button>
+
+
+      <button class="w-100  btn b-info" onclick="sendReq(M_SET_MODE_LOOP)">循环模式</button>
+      <button  class="w-100  btn b-success"  onclick="sendReq(M_SET_MODE_SINGLE)">锁定模式</button>
+
+      <button  class="w-100  btn b-info"  onclick="sendReq(M_LOCK_FRAME)">画面锁定</button>
+      <button  class="w-100  btn b-success"  onclick="sendReq(M_UNLOCK_FRAME)">画面解锁</button>
+
+     <button class="w-100  btn b-info" onclick="sendReq(M_SET_BRIGHTNESS, 1)">低亮度</button>
+      <button  class="w-100  btn b-success"   onclick="sendReq(M_SET_BRIGHTNESS, 0)">高亮度</button>
+
+
+    <button class="w-100  btn b-info"  onclick="setColor(0,0,0, 2)">自动变色模式</button>
+
+
+</div>
+
+ </script>
+
+
+ <script id="t_signal" type="text/x-jsrender">
+
+     <div class="card">
+           <h3>输出信号调整</h3><hr>
+                  <h5>当前信号值-<span id="curpwm"></span></h5>
+
+                  <br>
+                  <div class="row">
+               <label for="pwmval" class="w-100">输入信号值: </label><input class="w-100" type="number" id="pwmval" min="150" max="350">
+               </div>
+
+
+                 <button  class="w-100 btn info"  onclick="testSignal()">测试信号</button>
+
+                  <button  class="w-100 btn success"  onclick="sendReq(M_INC_OUTPUT_PWM)">增加</button>
+                  <button  class="w-100 btn primary"  onclick="sendReq(M_DEC_OUTPUT_PWM)">减小</button>
+                  <button  class="w-100 btn warning"  onclick="resetSignal()">设为缺省</button>
+            <button  class="w-100 btn inverse"  onclick="saveSignal()">保存</button>
+
+
+           </div>
+
+ </script>
+
+
+ <script id="t_effect" type="text/x-jsrender">
+     <div class="card">
+ <h3>效果管理</h3><hr>
+      <div id="eff-detail"></div>
+
+ {{#p}}
+  {{^f}}
+          <button  class="w-100 btn success"  onclick="installAt({{id}})">可用安装空间 #{{id}}</button>
+{{/f}}
+{{#f}}
+            <button  class="w-100 btn info"  onclick="getEffectDetail({{id}})">效果 #{{id}}</button>
+{{/f}}
+{{/p}}
+     </div>
+
+ </script>
+
+
+
+ <script id="t_effect_detail" type="text/x-jsrender">
+
+
+<div class="card">
+
+                     <h5><i>效果位于 #{{slot}}</i></h5>
+
+                         {{#t}}<p>名称: {{t}} - {{d}}</p>{{/t}}
+                           {{#a}}<p>作者: {{a}}</p>{{/a}}
+                            {{#cid}}<p>云端编号: {{cid}}</p>{{/cid}}
+                           <p>制作时间: {{timestr}}</p>
+
+
+
+                           <div class="row">
+                                                        <button class="6 col btn success" onclick="playEffect(3, {{slot}})">播放</button><button class="6 col btn warning " onclick="removeEffect(3,{{slot}})">卸载</button>
+                               </div>
+ </div>
+</script>
+
+
+
+ <script id="t_install_effect" type="text/x-jsrender">
+
+<div class="card">
+   <h3>效果安装</h3>
+   <hr>
+
+       <input type="hidden" id="filetype" value="3">
+
+<div class="card">
+      <h5>将新效果安装于   <i># SLOT #{{slot}}</i></h5>
+
+
+
+
+           <div class="row">
+             <label class="4 col" for="filename">选择效果文件</label>
+             <input class="8 col" type="file" id="filename" placeholder="File Name"/>
+           </div>
+</div>
+           <button class="w-100 btn success" onclick="installStart({{slot}})">开始安装</button>
+
+
+     </div>
+
+     <div  id="progress" class="p1 white bg-info"></div>
+</div>
+   </script>
+
+
+   <script id="t_upgrade" type="text/x-jsrender">
+       <div class="card">
+           <h3>升级管理</h3>
+           <hr>
+      <form>
+            <label class="w-100" for="filetype">升级类型</label>
+            <select class="w-100" id="filetype">
+                <option value="1">固件升级
+                <option value="2">合并效果更新
+                <option value="3">单效果安装
+                <option value="4">布局文件更新
+            </select>
+              <label class="w-100" for="filename">请选择文件</label>
+              <input class="w-100" type="file" id="filename" placeholder="File Name"/>
+      </form>
+      <button class="w-100 btn success" onclick="upgradeStart()">开始</button>
+
+<div class="p1 white bg-info" id="progress"></div>
+
+
+</div>
+
+   </script>
+
+
+
+
+   <script id="t_wifi_current"  type="text/x-jsrender">
+       <div class="card">
+   <h5>网络状态</h5>
+
+   {{#cur}}
+       <p>WIFI已经连接到  <large>{{curap}}</large> , 连接密码是  <small> {{curpsk}}</small><p>
+
+          <p>IP地址: <large> {{local}}</large></p>
+   {{/cur}}
+   {{^cur}}
+
+       <h5>WiFi 尚未连接</h5>
+
+   {{/cur}}
+
+{{#aplist}}
+       曾经连接过以下 APs<br><br>
+          <span> <a href="javascript:null" onclick="setWifiname('{{data}}')">{{data}}</a></span>
+
+
+   {{/aplist}}
+   </div>
+ </script>
+
+   <script id="t_wifi_scanlist" type="text/x-jsrender">
+
+<div class="card">
+
+   <h5>可用WIFI列表</h5>
+
+{{#scanlist}}
+<ul>
+{{/scanlist}}
+{{#scanlist}}
+
+             <li><a href="javascript:null" onclick="setWifiname('{{:#data}}')">{{:#data}}</a></li>
+{{/scanlist}}
+             {{#scanlist}}
+             </ul>
+             {{/scanlist}}
+
+             {{^scanlist}}
+
+       <h5>没有可用的WIFI!</h5>
+   {{/scanlist}}
+         </div>
+    </script>
+
+   <script id="t_network" type="text/x-jsrender">
+       <div class="card">
+     <h3>WiFi参数设置</h3><hr>
+
+
+        <div id="current"></div>
+        <div id="scanlist"></div>
+
+        <div class="card">
+        <h5>WiFI Link Parameters</h5>
+
+        <label class="w-100" for="wifiname">WiFi name</label>
+        <input class="w-100" type="text" id="wifiname" placeholder="WiFi name"/>
+
+        <label class="w-100" for="wifisec">WiFi Password</label>
+        <input class="w-100" type="text" id="wifisec" placeholder="WiFi Password"/>
+
+
+
+
+                <button class="w-100 btn success" onclick="setWifiParam()">Connect WiFi</button>
+
+                <button class="w-100 btn warning"  onclick="clearWifiParam()">Clear WiFi</button>
+
+
+</div>
+
+      </script>
+
+
+
+  <script id="t_layout" type="text/x-jsrender">
+<div class="card">
+        <h3>布局调整</h3>
+
+
+        <button  class="w-100  btn b-info" onclick="layout_h_flip()">左右翻转</button>
+        <button  class="w-100  btn b-success"  onclick="layout_v_flip()">上下翻转</button>
+
+        <button  class="w-100  btn b-info"  onclick="layout_apply()">保存</button>
+        <button  class="w-100  btn b-success"  onclick="layout_reset()">重置</button>
+
+
+        <div class="card b-warning">
+        <h5>请注意: 布局调整仅适用于窗帘灯和冰条灯, 请谨慎操作</h5>
+        </div>
+
+</div>
+
+</script>
+
+
+
+  <script id="t_security" type="text/x-jsrender">
+      <div class="card">
+      <h3>
+          安全设置
+      </h3><hr>
+          <form>
+                  <label  class="w-100" for="username">名称</label>
+                  <input class="w-100" type="text" id="devname" placeholder="Device Name"/>
+                  <label class="w-100" for="">访问密码</label>
+                  <input class="w-100" type="password" id="password" placeholder="Password"/>
+                  <label class="w-100" for="">云端访问</label>
+                  <input class="w-100" type="check" id="cloud" placeholder="Cloud Connect"/>
+
+          </form>
+          <button class="w-100 btn success" onclick="updateSecurity()">更新</button>
+</div>
+</script>
+
+
+<script id="t_lang" type="text/x-jsrender">
+
+<div class="card">
+      <h4>语言选择</h4><hr>
+      <button class="btn primary" onclick="selectLang('en')">English</button>
+  </div>
+
+</script>
+
+
+
+<script id="t_framerate" type="text/x-jsrender">
+
+<div class="card">
+      <h4>播放速率设定</h4><hr>
+      <form>
+              <label  class="w-100" for="fps">帧速率</label>
+              <input class="w-100" type="text" id="fps" placeholder="有效帧速率范围为5~25"/>
+
+      </form>
+      <button class="btn primary" onclick="set_speed()">测试</button>
+      <button class="btn success" onclick="save_speed()">保存</button>
+      <button class="btn info" onclick="reset_speed()">重置</button>
+<hr>
+Notes:
+<ul>
+    <li>1. 帧速率范围(1-50)可以用于测试目的</li>
+    <li>2. 只有帧速率范围(5-25)可以保存, 超出范围的数值都会被忽略</li>
+    </ul>
+
+  </div>
+
+</script>
+
+
+<script id="t_timer" type="text/x-jsrender">
+
+<div class="card">
+      <h4>定时开关设置</h4><hr>
+      <form>
+              <label  class="w-100" for="on_time">亮灯时间设置</label>
+              <input class="w-100" type="range" id="on_time" min="0" max="24" value="6" onchange="onTimeChange()"/><span id="c_on_time"></span>
+      </form>
+      <button class="w-100 btn primary" onclick="saveTimer()">启用定时器</button>
+      <button class="w-100 btn info" onclick="disableTimer()">停用定时器</button>
+
+
+  </div>
+
+</script>
+
+
+<script id="t_e131" type="text/x-jsrender">
+
+<div class="card">
+      <h4>E1.31参数设定</h4><hr>
+      <form>
+              <label  class="w-100" for="un">起始端口编号</label>
+              <input class="w-100" type="number" id="un"  value="200"/>
+              <label  class="w-100" for="ch1">第一端口通道数</label>
+              <input class="w-100" type="number" id="ch1"  value="510"/>
+              <label  class="w-100" for="ch2">第二端口通道数</label>
+              <input class="w-100" type="number" id="ch2"  value="510"/>
+              <label  class="w-100" for="ch3">第三端口通道数</label>
+              <input class="w-100" type="number" id="ch3"  value="510"/>
+
+      </form>
+      <button class="w-100 btn primary" onclick="saveE131()">保存并启用E131</button>
+      <button class="w-100 btn info" onclick="disableE131()">停用E131</button>
+      <button class="w-100 btn warning"  onclick='reboot()'  >重启</button>
+
+
+  </div>
+
+</script>
+
+<script id="t_login" type="text/x-jsrender">
+<h4>请登录</h4><hr>
+<form>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <label for="">密码</label>
+        <input type="password" id="password" placeholder="请输入安全密码进入系统..."/>
+      </div>
+    </div>
+    <hr>
+</form>
+       <div class="p1 white bg-white"><button onclick="doLogin()">确认</button></div>
+  </script>

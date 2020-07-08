@@ -1,0 +1,507 @@
+<script type="text/html" id="t_menu">
+
+<b>SmartPixels</b><hr>
+   <div class="card p1 b-white">
+<a class="ph2" href="#/">Home</a>
+<a class="ph2" href="#/play">Play</a>
+<a class="ph2" href="#/setting">Settings</a>
+
+       </div>
+
+</script>
+
+
+
+<script type="text/html" id="t_home">
+<h5>This is home</h5>
+</script>
+
+
+
+
+
+
+
+
+<script type="text/x-templates" id="t_setting">
+    <div class="card">
+<h3>Settings</h3>
+<hr>
+<div class="w-100  btn b-info" >  <a  href='#/network'>WiFi Setting</a></div>
+<div class="w-100  btn b-success" ><a       href='#/effect'>Effects </a></div>
+
+  <div class="w-100  btn b-info" >   <a       href='#/security'>Security</a></div>
+<div  class="w-100  btn b-success"><a      href='#/layout'>Layout Adjustment </a></div>
+
+ <div class="w-100  btn b-info" ><a       href='#/lang'>Language Select</a></div>
+ <div  class="w-100  btn b-success"> <a      href='#/signal'>Signal Test</a></div>
+ <div  class="w-100  btn b-info"> <a      href='#/framerate'>Play Framerate</a></div>
+ <div  class="w-100  btn b-success"> <a      href='#/timer'>Timer</a></div>
+ <div  class="w-100  btn b-info"> <a      href='#/e131'>E1.31 Parameters</a></div>
+ <div class="w-100  btn b-success" ><a href="#/" onclick='reboot()'  >Reboot</a></div>
+
+
+</div>
+</script>
+
+<script type="text/html" id="t_404">
+<h4>404- Service Not Found </h4><hr>
+    <h5> {{hash}}, Query is {{q}}</h5>
+</script>
+
+
+
+
+
+<script id="t_devinfo" type="text/html">
+    <div class="card">
+
+         <h5>Welcome</h5>
+<hr>
+
+ <div class="p1 white b-info"> <a href="#/play"  >Play Control</a></div>
+ <div class="p1 white b-success"> <a href="#/status" >Running Status</a></div>
+ <div class="p1 white b-info"> <a href="#/setting" >Settings</a></div>
+
+ <div class="p1 white b-success"><a href="#/upgrade">Upgrade</a></div>
+
+
+
+
+{{^security}}
+<br><br>
+<div>
+    Security Token not enabled
+</div><hr>
+    <form>
+        <div class="row">
+            <label class="4 col" for="username">Name</label>
+            <input  class="8 col card w-100"" type="text" id="devname" placeholder="Device Name"/>
+          </div>
+          <div class="row">
+            <label class="4 col" for="">Password</label>
+            <input class="8 col card w-100" type="password" id="password" placeholder="Password"/>
+          </div>
+
+    </form>
+
+    <button class="w-100 p1 black bg-white b-info" onclick="updateSecurity()">Update</button>
+
+</div>
+
+{{/security}}
+
+{{#security}}
+
+{{^login}}
+        <h4>Login Required</h4><hr>
+        <form>
+            <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <label for="">Password</label>
+                <input type="password" id="password" placeholder="Enter password for security..."/>
+              </div>
+            </div>
+            <hr>
+
+
+        </form>
+               <div class="p1 white bg-white"><button onclick="doLogin()">Login</button></div>
+{{/login}}
+
+{{#login}}
+
+{{/login}}
+
+{{/security}}
+
+<div class="card b-gray">
+    <h3>Device running status</h3><hr>
+    <h3>{{name}} - {{sn}}</h3>
+    <p>IP: {{local}}</p>
+    <p>Free Memory: {{fm}}</p>
+    <p>Dimension: {{w}} * {{h}}</p>
+</div>
+
+
+</div>
+</script>
+
+
+
+
+<script id="t_status" type="text/html">
+         <div class="card">
+             <br><br>
+ {{#fm}}
+<h3>Device running status</h3><hr><br>
+<h3>{{name}} - {{sn}}</h3>
+<p>IP: {{local}}</p>
+<p>Free Memory: {{fm}}</p>
+<p>Dimension: {{w}} * {{h}}</p>
+{{/fm}}
+
+{{^fm}}
+<h3>Not connect</h3><hr>
+{{/fm}}
+
+</div>
+</script>
+
+
+<script id="t_play" type="text/x-jsrender">
+
+ <div class="card">
+<h3>Play Control</h3>
+
+
+      <button  class="w-100  btn b-info"  onclick="sendReq(M_SET_POWEROFF)">Power Off</button>
+    <button  class="w-100  btn b-success"  onclick="sendReq(M_SET_POWERON)">Power On</button>
+
+
+
+  <button class="w-100  btn b-info"  onclick="sendReq(M_PLAY_PREV)">Prev</button>
+      <button class="w-100  btn b-success"   onclick="sendReq(M_PLAY_NEXT)">Next</button>
+
+
+      <button class="w-100  btn b-info" onclick="sendReq(M_SET_MODE_LOOP)">Loop Mode</button>
+      <button  class="w-100  btn b-success"  onclick="sendReq(M_SET_MODE_SINGLE)">Single Mode</button>
+
+      <button  class="w-100  btn b-info"  onclick="sendReq(M_LOCK_FRAME)">Freeze Picture</button>
+      <button  class="w-100  btn b-success"  onclick="sendReq(M_UNLOCK_FRAME)">Unfreeze Picture</button>
+
+     <button class="w-100  btn b-info" onclick="sendReq(M_SET_BRIGHTNESS, 1)">DIM</button>
+      <button  class="w-100  btn b-success"   onclick="sendReq(M_SET_BRIGHTNESS, 0)">BRIGHT</button>
+
+
+    <button class="w-100  btn b-info"  onclick="setColor(0,0,0, 2)">Auto Color Change</button>
+
+
+</div>
+
+ </script>
+
+
+ <script id="t_signal" type="text/x-jsrender">
+
+     <div class="card">
+           <h3>Signal Ouput Adjustment</h3><hr>
+                  <h5>Current Signal Value-<span id="curpwm"></span></h5>
+
+                  <br>
+                  <div class="row">
+               <label for="pwmval" class="w-100">Input Signal Value: </label><input class="w-100" type="number" id="pwmval" min="150" max="350">
+               </div>
+
+
+                 <button  class="w-100 btn info"  onclick="testSignal()">Test Input Signal</button>
+
+                  <button  class="w-100 btn success"  onclick="sendReq(M_INC_OUTPUT_PWM)">Increase</button>
+                  <button  class="w-100 btn primary"  onclick="sendReq(M_DEC_OUTPUT_PWM)">Decrease</button>
+                  <button  class="w-100 btn warning"  onclick="resetSignal()">Reset to default</button>
+            <button  class="w-100 btn inverse"  onclick="saveSignal()">Save</button>
+
+
+           </div>
+
+ </script>
+
+
+ <script id="t_effect" type="text/x-jsrender">
+     <div class="card">
+ <h3>Effects Management</h3><hr>
+      <div id="eff-detail"></div>
+
+ {{#p}}
+  {{^f}}
+          <button  class="w-100 btn success"  onclick="installAt({{id}})">Free Space #{{id}}</button>
+{{/f}}
+{{#f}}
+            <button  class="w-100 btn info"  onclick="getEffectDetail({{id}})">Effect #{{id}}</button>
+{{/f}}
+{{/p}}
+     </div>
+
+ </script>
+
+
+
+ <script id="t_effect_detail" type="text/x-jsrender">
+
+
+<div class="card">
+
+                     <h5><i>Effect @ #{{slot}}</i></h5>
+
+                         {{#t}}<p>Name: {{t}} - {{d}}</p>{{/t}}
+                           {{#a}}<p>Author: {{a}}</p>{{/a}}
+                            {{#cid}}<p>Cloud ID: {{cid}}</p>{{/cid}}
+                           <p>Update: {{timestr}}</p>
+
+
+
+                           <div class="row">
+                                                        <button class="6 col btn success" onclick="playEffect(3, {{slot}})">Play</button><button class="6 col btn warning " onclick="removeEffect(3,{{slot}})">Uninstall</button>
+                               </div>
+ </div>
+</script>
+
+
+
+ <script id="t_install_effect" type="text/x-jsrender">
+
+<div class="card">
+   <h3>Effect Installation</h3>
+   <hr>
+
+       <input type="hidden" id="filetype" value="3">
+
+<div class="card">
+      <h5>Install Effect @  <i># SLOT #{{slot}}</i></h5>
+
+
+
+
+           <div class="row">
+             <label class="4 col" for="filename">Select  Effect File</label>
+             <input class="8 col" type="file" id="filename" placeholder="File Name"/>
+           </div>
+</div>
+           <button class="w-100 btn success" onclick="installStart({{slot}})">Install</button>
+
+
+     </div>
+
+     <div  id="progress" class="p1 white bg-info"></div>
+</div>
+   </script>
+
+
+   <script id="t_upgrade" type="text/x-jsrender">
+       <div class="card">
+           <h3>Device Upgrade</h3>
+           <hr>
+      <form>
+            <label class="w-100" for="filetype">Upgrade Type</label>
+            <select class="w-100" id="filetype">
+                <option value="1">Firmware Upgrade
+                <option value="2">Mixed Effects Update
+                <option value="3">Single Effect Installation
+                    <option value="4">Layout Update
+            </select>
+              <label class="w-100" for="filename">Please select file</label>
+              <input class="w-100" type="file" id="filename" placeholder="File Name"/>
+      </form>
+      <button class="w-100 btn success" onclick="upgradeStart()">Start</button>
+
+<div class="p1 white bg-info" id="progress"></div>
+
+
+</div>
+
+   </script>
+
+
+
+
+   <script id="t_wifi_current"  type="text/x-jsrender">
+       <div class="card">
+   <h5>Network Status</h5>
+
+   {{#cur}}
+       <p>WiFi connected to  <large>{{curap}}</large> with Pin  <small> {{curpsk}}</small><p>
+
+          <p>IP Address: <large> {{local}}</large></p>
+   {{/cur}}
+   {{^cur}}
+
+       <h5>WiFi  not connect</h5>
+
+   {{/cur}}
+
+{{#aplist}}
+       Ever connected to the following APs<br><br>
+          <span> <a href="javascript:null" onclick="setWifiname('{{data}}')">{{data}}</a></span>
+
+
+   {{/aplist}}
+   </div>
+ </script>
+
+   <script id="t_wifi_scanlist" type="text/x-jsrender">
+
+<div class="card">
+
+   <h5>Available WiFi List</h5>
+
+
+{{#scanlist}}
+             <li><a href="javascript:null" onclick="setWifiname('{{:#data}}')">{{:#data}}</a></li>
+{{/scanlist}}
+
+
+  {{^scanlist}}
+
+       <h5>No WiFi available currently!</h5>
+   {{/scanlist}}
+         </div>
+    </script>
+
+   <script id="t_network" type="text/x-jsrender">
+       <div class="card">
+     <h3>WiFi Settings</h3><hr>
+
+
+        <div id="current"></div>
+        <div id="scanlist"></div>
+
+        <div class="card">
+        <h5>WiFI Link Parameters</h5>
+
+        <label class="w-100" for="wifiname">WiFi name</label>
+        <input class="w-100" type="text" id="wifiname" placeholder="WiFi name"/>
+
+        <label class="w-100" for="wifisec">WiFi Password</label>
+        <input class="w-100" type="text" id="wifisec" placeholder="WiFi Password"/>
+
+
+
+
+                <button class="w-100 btn success" onclick="setWifiParam()">Connect WiFi</button>
+
+                <button class="w-100 btn warning"  onclick="clearWifiParam()">Clear WiFi</button>
+
+
+</div>
+
+      </script>
+
+
+
+  <script id="t_layout" type="text/x-jsrender">
+<div class="card">
+        <h3>Layout Adjustment</h3>
+
+
+        <button  class="w-100  btn b-info" onclick="layout_h_flip()">Horizontal Flip</button>
+        <button  class="w-100  btn b-success"  onclick="layout_v_flip()">Vertical Flip</button>
+
+        <button  class="w-100  btn b-info"  onclick="layout_apply()">Save</button>
+        <button  class="w-100  btn b-success"  onclick="layout_reset()">Reset</button>
+
+
+        <div class="card b-warning">
+        <h5>Attention: Only for Curtain Lights and Icicle Lights</h5>
+        </div>
+
+</div>
+
+</script>
+
+
+
+  <script id="t_security" type="text/x-jsrender">
+      <div class="card">
+      <h3>
+          Security Settings
+      </h3><hr>
+          <form>
+                  <label  class="w-100" for="username">Name</label>
+                  <input class="w-100" type="text" id="devname" placeholder="Device Name"/>
+                  <label class="w-100" for="">Password</label>
+                  <input class="w-100" type="password" id="password" placeholder="Password"/>
+
+          </form>
+          <button class="w-100 btn success" onclick="updateSecurity()">Update</button>
+</div>
+</script>
+
+
+<script id="t_lang" type="text/x-jsrender">
+
+<div class="card">
+      <h4>Language Select</h4><hr>
+      <button class="btn primary" onclick="selectLang('cn')">简体中文</button>
+  </div>
+
+</script>
+
+
+<script id="t_framerate" type="text/x-jsrender">
+
+<div class="card">
+      <h4>Play Speed (FPS) Setting</h4><hr>
+      <form>
+              <label  class="w-100" for="fps">Frame Rate</label>
+              <input class="w-100" type="text" id="fps" placeholder="Valid framerate is 1~25"/>
+
+      </form>
+      <button class="btn primary" onclick="set_speed()">Test</button>
+      <button class="btn success" onclick="save_speed()">Save</button>
+      <button class="btn info" onclick="reset_speed()">Reset</button>
+<hr>
+Notes:
+<ul>
+    <li>1. FPS in (1,50) can be used for Testing purpose;</li>
+    <li>2. Only FPS value in (5, 25) can be saved, value out of range will be ignored</li>
+    </ul>
+
+  </div>
+
+</script>
+
+
+<script id="t_timer" type="text/x-jsrender">
+
+<div class="card">
+      <h4>Timer Setting</h4><hr>
+      <form>
+              <label  class="w-100" for="on_time">PowerOn Hours</label>
+              <input class="w-100" type="range" id="on_time" min="0" max="24" value="6" onchange="onTimeChange()"/><span id="c_on_time">ON 6Hours,  OFF 18 Hours</span>
+      </form>
+      <button class="btn primary" onclick="saveTimer()">Enable</button>
+      <button class="btn info" onclick="disableTimer()">Disable</button>
+
+
+  </div>
+
+</script>
+
+
+<script id="t_e131" type="text/x-jsrender">
+
+<div class="card">
+      <h4>E1.31 Parameters</h4><hr>
+      <form>
+              <label  class="w-100" for="un">Start Universe Number</label>
+              <input class="w-100" type="number" id="un"  value="200"/>
+              <label  class="w-100" for="ch1">Channels in first Universe</label>
+              <input class="w-100" type="number" id="ch1"  value="510"/>
+              <label  class="w-100" for="ch2">Channels in second Universe</label>
+              <input class="w-100" type="number" id="ch2"  value="510"/>
+              <label  class="w-100" for="ch3">Channels in third Universe</label>
+              <input class="w-100" type="number" id="ch3"  value="510"/>
+
+      </form>
+      <button class="btn primary" onclick="saveE131()">Save</button>
+      <button class="btn info" onclick="disableE131()">Disable</button>
+      <button class="btn warning"  onclick='reboot()'  >Reboot</button>
+
+
+  </div>
+
+</script>
+
+<script id="t_login" type="text/x-jsrender">
+<h4>Please login</h4><hr>
+<form>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <label for="">Password</label>
+        <input type="password" id="password" placeholder="Enter password for security..."/>
+      </div>
+    </div>
+    <hr>
+</form>
+       <div class="p1 white bg-white"><button onclick="doLogin()">Login</button></div>
+  </script>
