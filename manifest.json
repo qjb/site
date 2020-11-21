@@ -1,0 +1,16 @@
+{
+  "name": "SMART PIXELS",
+  "start_url": "/start.html",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#3eaf7c",
+  "description": "SMART PIXELS",
+  "prefer_related_applications":false,
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title data-i18n-html="im_title_home" id="title">SMART PIXEL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,max-width=400px; user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="css/smart.css?v8">
+    <script src="js/smart2.min.js?v9" type="text/javascript"></script>
+
+</head>
+<style>
+    *{margin:0;padding:0;}
+    .main_div {
+            margin:0px;
+            background: url(images/body-bg-2.png) no-repeat;
+            background-size:100% 100%;
+            background-attachment:fixed;
+            margin:0;
+            width:100%;
+            height:100%;
+            padding-bottom:20px;
+        }
+
+
+    </style>
+</head>
+<body >
+
+<div class="main_div">
+
+    <div style="width:100%;height:50px;">
+    <div id="div_home" style="float:left;height:50px;width:40px" class="icon_p" onclick="go_home()">
+        <div class="icon_b1 icon_home_c" style="height:45px;width:40px"></div>
+    </div>
+    <div style="float:left;color:white;font-size:2rem;line-height:40px;margin-left:3rem;" >
+        <div style="float: left;height:50px;line-height:50px" id="device_name">Device Loading</div><div style="height:50px;float:left;margin-left:30px" class="icon_b1 icon_wifi_offline_c" id="device_status"></div>
+    </div>
+    <div id="div_menu" class="dropdown" style="float:right;text-align:right">
+        <a class="btn-set-secret" data-toggle="dropdown" href="#">
+            <div style="height:45px;width:40px;" class="icon_b1 icon_menu_c">
+            </div>
+        </a>
+        <ul class="dropdown-menu" style="left:-13rem;top:4rem" role="menu">
+            <li><a href="javascript:show_set_secret()"  data-i18n-html="ib_set_key">安全密码</a></li>
+            <li class="divider"></li>
+            <li><a href="javascript:show_set_name()"  data-i18n-html="ib_set_name">彩灯名称</a></li>
+            <!--
+            <li class="divider"></li>
+            <li><a href="javascript:set_layout(0)" data-i18n-html="ib_lay_reset">重置布局</a></li>
+            <li><a href="javascript:set_layout(5)" data-i18n-html="ib_flip_ud">上下</a></li>
+            <li><a href="javascript:set_layout(4)" data-i18n-html="ib_flip_lr">左右</a></li>
+            <li><a href="javascript:set_layout(6)" data-i18n-html="ib_flip_all">上下&左右</a></li>
+            -->
+            <li class="divider"></li>
+            <li><a href="javascript:frame_lock(1)" data-i18n-html="ib_lock">锁定图案</a></li>
+            <li><a href="javascript:frame_lock(0)" data-i18n-html="ib_unlock">解锁</a></li>
+            <li class="divider"></li>
+            <li><a href="javascript:reboot()" data-i18n-html="ib_reboot">重启彩灯</a></li>
+
+        </ul>
+    </div>
+</div>
+<div id="content" style="width: 100%;">
+    <div id="show_cav_container" style="font-size:40px;color:#666;vertical-align:middle;text-align: center;">
+        Loading.....
+    </div>
+
+    <div class="w-100" style="margin-top:5px;height:30px">
+        <div class="icon_p">
+            <div class="icon_b1 icon_prev_c btn-op"  mid="403" p="0"></div>
+        </div>
+        <div  class="icon_p">
+            <div class="icon_b1 icon_next_c btn-op"  mid="402" p="0"></div>
+        </div>
+        <div  class="icon_p">
+            <div class="icon_b1 icon_dooding_c icon_dooding"></div>
+        </div>
+
+        <div class="icon_p"><div class="icon_2"></div></div>
+
+        <div  class="icon_p"  style="float:right">
+            <div class="icon_b1 icon_color_c icon_show_color"></div>
+        </div>
+    </div>
+    <div style="margin:0 auto;margin-top:10px;margin-bottom:5px;width:90%;background-color:#808080; height:1px"></div>
+
+    <div class="w-100" style="height:30px">
+        <div class="icon_p">
+            <div class="icon_2"></div>
+        </div>
+        <div  class="icon_p">
+            <div class="icon_b1 icon_qrcode_c icon_qrcode"></div>
+        </div>
+        <div  class="icon_p">
+            <div class="icon_b1 icon_single_c icon_loop"></div>
+        </div>
+        <div  class="icon_p">
+            <div class="icon_b1 icon_bright_l_c icon_brightness"></div>
+        </div>
+        <div  class="icon_p">
+            <div class="icon_b1 icon_power_off_c btn-power"></div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div id="TPLS"></div>
+
+<div style="display: none">
+    <canvas id="canvas_none" width="360" height="360"></canvas>
+</div>
+
+<div class="modal fade" id="choose-color-model" tabindex="-1" role="dialog"  aria-hidden="true" style="margin-top:5rem;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: rgba(200,200,200,0.2);height:420px">
+            <div class="modal-body" id="col-pan-sel" style="padding:2px;">
+                <div class="w-100" style="margin-top:2rem;height:2.5rem">
+                    <div class="icon_p">
+                        <div class="icon_b1 icon_color1_c icon_color_style" m="0"></div>
+                    </div>
+                    <div  class="icon_p">
+                        <div class="icon_b1 icon_color2_c icon_color_style" m="1"></div>
+                    </div>
+                    <div class="icon_p">
+                        <div class="icon_b1 icon_color3_c icon_color_style" m="2"></div>
+                    </div>
+
+                    <div  class="icon_p"  style="float:right">
+                        <div class="icon_b1 icon_close_c" data-dismiss="modal"></div>
+                    </div>
+                </div>
+                <div class="w-100" style="height:320px;padding:0.5rem">
+                    <div id="show_area" class="w-100" style="height:300px;text-align:center;padding-top:1rem">
+                        <canvas id="color_cav" style="margin:auto 0;width:300px;height:300px" width=360 height=360></canvas>
+                    </div>
+                </div>
+                <div style="width:100%;padding:5px;">
+                    <div id="div_huxingdeng" class="w-33" style="float:left;text-align: center">
+                        <div class="dn-btn h-3" style="line-height:3rem;">
+                            <input type="checkbox" id="cb_huxideng" class="cb_huxideng"
+                                   style="margin-right:3px;padding-left:2rem;padding-right: 2rem" checked><label for="cb_huxideng" data-i18n-html="cb_huxideng">呼吸灯</label></div>
+                    </div>
+                    <div class="w-33" style="float:left;text-align: center">
+                        <button class="dn-btn h-3 btn-auto-color" style="padding-left:2rem;padding-right: 2rem" data-i18n-html="im_auto_color">自动颜色</button>
+                    </div>
+                    <div class="w-33" style="float:right;text-align: center">
+                        <button class="dn-btn h-3" style="padding-left:2rem;padding-right: 2rem" data-dismiss="modal" data-i18n-html="ib_close">close</button>
+                    </div>
+
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="qrcode_modal" tabindex="-1" role="dialog"  aria-hidden="true" style="margin-top:50px;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: rgba(200,200,200,0.3);">
+            <div class="modal-body" id="qr_mod_body" style="padding:2px;width:300px;margin:0px auto">
+                <div class="w-100" style="margin-top:2rem;height:2.5rem">
+                    <div  class="icon_p"  style="float:right">
+                        <div class="icon_b1 icon_close_c" data-dismiss="modal"></div>
+                    </div>
+                </div>
+                <div style="width:260px;background-color: #CCC;padding:5px;border-radius:4px;margin:auto 0;margin-top:20px;margin-bottom:60px;margin-left:17px;" id="div_qrcode">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="share-timeout_modal" tabindex="-1" role="dialog"  aria-hidden="true" style="margin-top:50px;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: rgba(200,200,200,0.3);">
+            <div class="modal-body" style="padding:2px;width:300px;height:300px;margin:0px auto">
+                <div style="color: white;padding:5px;border-radius:4px;margin:auto 0;margin-top:20px;margin-bottom:60px;font-size:20px" data-i18n-html="im_share_timeout">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="device_login_modal" tabindex="-1" role="dialog"  aria-hidden="true" style="width: 100%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n-html="ib_login">设备登录</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-xs-12" data-i18n-html="im_enter_key">
+                    输入安全密钥登录：
+                </div>
+                <div class="col-xs-12" id="device-login-notice" style="color:red;padding:1rem">
+
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" data-i18n-html="im_key">密钥</span>
+                    <input type="text" id="in-login-psk" class="form-control" placeholder="4-10数字或字符" style="text-align:left;">
+                </div>
+            </div>
+            <div style="margin-top:1rem;padding:10px;">
+                <span style="color:red;font-weight: bold">注意：</span>如果您忘记安全密钥，可以在启动时长按控制按钮5秒钟，将清除安全密钥和网络配置，请谨慎执行！
+            </div>
+            <div class="modal-footer" style="text-align:center">
+                <button type="button" style="height:3rem" class="dn-btn btn-login-psk" data-i18n-html="ib_do_login">确认登录</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="set_psk_modal" tabindex="-1" role="dialog"  aria-hidden="true" style="width: 100%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n-html="im_set_key">设置安全密钥</h4>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom:2rem;color:#2CA3D5;font-weight:bold;" data-i18n-html="im_set_key_1">
+                    安全密钥，用于避免非授权的控制
+                </div>
+
+                <div class="m-add-secret" style="display: none">
+                <div class="input-group">
+                    <span class="input-group-addon" data-i18n-html="im_new_key">新设密钥</span>
+                    <input type="text" id="in-new-psk1" class="form-control" placeholder="4-10位长度" style="text-align:left;">
+                </div>
+                </div>
+                <div class="m-update-secret"  style="display: none">
+                    <div class="input-group">
+                        <span class="input-group-addon" data-i18n-html="im_key_orgi">原密钥</span>
+                        <input type="text" id="in-new-psk2" class="form-control" placeholder="4-10位长度" style="text-align:left;">
+                    </div>
+                    <div class="input-group" style="margin-top:5px;">
+                        <span class="input-group-addon" data-i18n-html="im_key_newset">新密钥</span>
+                        <input type="text" id="in-new-psk3" class="form-control" placeholder="4-10位长度" style="text-align:left;">
+                    </div>
+                    <div data-i18n-html="im_key_to_clear">不输入新密码，则将清空安全密钥</div>
+
+                </div>
+                <div class="set-sec-msg" style="margin-top:1rem;color:red"></div>
+                <div style="margin-top:2rem;">
+                    <span style="color:red;font-weight: bold" data-i18n-html="im_key_att1">注意：</span><span data-i18n-html="im_key_att2">如果您忘记安全密钥，可以在启动时长按控制按钮5秒钟，将清除安全密钥和网络配置，请谨慎执行！</span>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align:center">
+
+                <button type="button" style="height:3rem" onclick="run_set_secret()" class="dn-btn btn-set-psk" data-i18n-html="ib_confirm">确认设置密钥</button>
+                <button type="button" style="height:3rem; color:#000000" class="dn-btn" data-dismiss="modal" style="margin-left：20px" data-i18n-html="ib_cancel">取消</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="set_name_modal" tabindex="-1" role="dialog"  aria-hidden="true" style="width: 100%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n-html="im_set_name">设置名称</h4>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <div class="input-group">
+                        <span class="input-group-addon" data-i18n-html="im_name">名称</span>
+                        <input type="text" id="in-new-name" class="form-control"  style="text-align:left;">
+                    </div>
+                </div>
+
+                <div class="set-name-msg" style="margin-top:1rem;color:red"></div>
+            </div>
+            <div class="modal-footer" style="text-align:center">
+
+                <button type="button" style="height:3rem" onclick="run_set_name()" class="dn-btn btn-set-psk" data-i18n-html="ib_confirm">确认设置</button>
+                <button type="button" style="height:3rem; color:#000000" class="dn-btn" data-dismiss="modal" style="margin-left：20px" data-i18n-html="ib_cancel">取消</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="divswip" style="width: 100%;position: absolute;top:100px;left:0px;height:100px;text-align: center;display: none">
+    <div style="margin:0 auto;width:240px;height:100px;background-color: #000000; border-radius:10px;">
+        <div class="icon_b1 icon_swip_left_c" style="float: left;margin-left:40px;margin-top:20px;width:80px;height:60px;"></div>
+        <div class="icon_b1 icon_swip_right_c" style="float: right;margin-right:40px;margin-top:20px;width:80px;height:60px;"></div>
+    </div>
+</div>
+
+
+</body>
+<script>
+
+    var dooding = new DoodingShow();
+    var layout = new Layout();
+    var home = new DeviceHome();
+    var shareLimit;
+    var colorer = new ColorChooser();
+    var ctrl = new DeviceControl();
+    var LastOnLine = 0;
+
+    var from = "0";
+    var deviceInfo = {};
+    var ws = new WS();
+    var images = [];
+    function preload() {
+        var img_urls = [];
+        for (i = 0; i < img_urls.length; i++) {
+            images[i] = new Image()
+            images[i].src = img_urls[i];
+        }
+    }
+    function web_init() {
+        ctrl.initUI();
+        var tpls = ["tmpls/device.html"];
+        shareLimit = parseInt(getHashParam("st"));
+        if(isNaN(shareLimit)) shareLimit = 0;
+        if(shareLimit > 0) {
+            $("#div_menu").hide();
+            $("#div_home").hide();
+        }
+
+        from = getHashParam("f");
+        if (from != "0") from = "1";
+
+        var loaded = 0;
+        for(var i = 0; i < tpls.length; i ++) {
+            $.get(tpls[i], function (data) {
+                $("#TPLS").append(data);
+                loaded ++;
+                if(loaded == tpls.length) {
+                    var sn = getHashParam("sn");
+                    if(sn && sn.length > 0) {
+                        deviceInfo.sn = sn;
+                    }
+                    var ip = getHashParam("ip");
+                    if(ip && ip.length > 0) {
+                        deviceInfo.ip = ip;
+                    }
+                    home.start();
+                }
+            });
+        }
+        preload();
+        colorer.init();
+        SwipeAction(function(type, pos){
+            if(type == 1) {
+                var x = pos.x2 - pos.x1;
+                if(x < 20 && x >= -20) {
+                    $("#divswip").hide();
+                    return;
+                }
+                $("#divswip").show();
+                if(x > 20) {
+                    $(".icon_swip_left_c").addClass("icon_disable");
+                    $(".icon_swip_right_c").removeClass("icon_disable");
+                } else if(x < -20) {
+                    $(".icon_swip_left_c").removeClass("icon_disable");
+                    $(".icon_swip_right_c").addClass("icon_disable");
+                }
+            }else{
+                var x = pos.x2 - pos.x1;
+                if(x < 20 && x >= -20) {
+                    $("#divswip").hide();
+                    return;
+                }
+
+                if(x >= 20) {
+                    console.log("runNext");
+                    ctrl.runNext();
+                } else {
+                    console.log("runPrev");
+                    ctrl.runPrev();
+                }
+                setTimeout(function(){$("#divswip").hide();}, 500);
+            }
+        });
+    }
+
+    function go_home() {
+        window.location.href = "https://" + getUrlHost() + getUrlPath() + "start.html#?f=" + from;
+    }
+    function show_set_secret() {
+        home.show_set_secret();
+    }
+    function show_set_name(){
+        home.show_set_name();
+    }
+    function run_set_name() {
+        home.run_set_name();
+    }
+    function set_layout(op) {
+        //op == 1 上下翻转  2，左右翻转
+        home.set_layout(op);
+    }
+    function run_set_secret() {
+        home.run_set_secret();
+    }
+    function resetNet() {
+        home.resetNet();
+    }
+    function go_netconfig() {
+        config.start();
+    }
+    function reboot() {
+        home.reboot();
+    }
+    function frame_lock(op){
+        home.frame_lock(op);
+    }
+
+    function show_language() {
+        $("#language-dial").modal("show");
+    }
+    function set_Lang(l) {
+        var curr_lang = getLocale();
+        if(curr_lang == l) return;
+        setLocale(l);
+        loadI18n();
+    }
+
+</script>
+
+</html>

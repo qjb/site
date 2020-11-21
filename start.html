@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title data-i18n-html="im_title_home">SMART PIXEL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="css/smart.css?v1">
+    <script src="js/smart1.min.js?v1" type="text/javascript"></script>
+
+</head>
+<body>
+<div  style="width:100%;height:5rem;background-color: rgba(20, 163, 241, 0.81);border-bottom: #dcdcdc 1px solid;color:#FFFFFF;line-height: 5rem;">
+    <div style="float: left;">
+        <div style="height:2.2rem;padding-left:1rem;float:left"><img src="images/logo.png" style="width:2.2rem;height: 2.2rem" onclick="go_home()"/></div>
+        <div style="height:2.2rem;padding-left:0.8rem;text-align: left;float:left" data-i18n-html="app_name"></div>
+    </div>
+    <div style="float:right;text-align:right;;padding-right:2rem">
+        <a href="javascript:NetConfig()" style="text-decoration:none;border-bottom:1px solid #CCCCCC;color:#FFFFFF" data-i18n-html="ib_net_config">配网</a>
+        <a href="javascript:show_language();" style="text-decoration:none;margin-left:2rem;margin-right:5px;border-bottom:1px solid #CCCCCC;;color:#FFFFFF"  data-i18n-html="im_language">语言设置</a>
+    </div>
+</div>
+
+
+<div id="content" style=""></div>
+<div id="TPLS"></div>
+
+<div id="language-dial" class="modal fade dn-modal"  tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-i18n-html="im_language">语言设置</h4>
+            </div>
+            <div class="modal-body row" style="font-size:1.2rem">
+                <div class="col-xs-12"style="height:100px;line-height:25px;">
+                    <input class="lang_radio" type="radio" name="language" id="lang_item_zh" value="zh" onclick="set_Lang('zh')"> <label for="lang_item_zh">中文</label><br>
+                    <input class="lang_radio" type="radio" name="language" id="lang_item_en" value="en" onclick="set_Lang('en')"> <label for="lang_item_en">English</label><br>
+                    <input class="lang_radio" type="radio" name="language" id="lang_item_ko" value="ko" onclick="set_Lang('ko')"> <label for="lang_item_ko">한국어</label><br>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: center">
+                <button class="dn-btn-m button" class="close" data-dismiss="modal" data-i18n-html="ib_close">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+
+    var from = "0";
+    function web_init() {
+        if(isWeixin()) {
+            setDefaultLang("zh");
+        } else {
+            setDefaultLang("en");
+        }
+        var tpls = ["tmpls/start.html"];
+        from = getHashParam("f");
+        if(from != "0") from = "1";
+
+        var loaded = 0;
+        for(var i = 0; i < tpls.length; i ++) {
+            $.get(tpls[i], function (data) {
+                $("#TPLS").append(data);
+                loaded ++;
+                if(loaded == tpls.length) {
+                    C("T_HOME",{});
+                    show_device_list();
+                }
+            });
+        }
+
+        ScrollAction(function(){
+            show_device_list();
+        });
+    }
+
+    function show_language() {
+        $("#language-dial").modal("show");
+    }
+
+    function set_Lang(l) {
+        var curr_lang = getLocale();
+        if(curr_lang == l) return;
+        setLocale(l);
+        loadI18n();
+    }
+    function setDefaultLang(l) {
+        var curr_lang = getLocale();
+        if(curr_lang && curr_lang.length > 0) {
+            return;
+        }
+        if(curr_lang == l) return;
+        setLocale(l);
+        loadI18n();
+    }
+    function NetConfig() {
+        if(isWeixin()) {
+            window.location.href="https://daniaokeji.com/led/wifi";
+        } else {
+            add_new_device();
+        }
+
+    }
+</script>
+
+</html>

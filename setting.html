@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title data-i18n-html="im_title_home">SMART PIXEL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,max-width=400px; user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/smart.css?v1">
+    <script src="js/smart2.min.js?v1" type="text/javascript"></script>
+
+</head>
+<body>
+<div  id="nav_1" style="padding-left:1rem;height:5rem;border-bottom: #428bca 1px solid;background-color: #428bca;color:white;font-weight: bold;font-size: 1.8rem;line-height: 5rem;">
+    <div style="height:2.2rem;padding-left:1rem;float:left"><img src="images/icon_home.png" style="height: 2.2rem" onclick="go_home()"/></div>
+    <div style="height:2.2rem;padding-left:0.8rem;text-align: left;float:left" data-i18n-html="app_name">
+    </div>
+    <div style="float:right;font-weight:normal;font-size:1.2rem;line-height: 2.5rem">
+    </div>
+</div>
+
+<div id="content"></div>
+<div id="TPLS"></div>
+
+<div id="language-dial" class="modal fade dn-modal"  tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-i18n-html="im_language">语言设置</h4>
+            </div>
+            <div class="modal-body row" style="font-size:1.2rem">
+                <div class="col-xs-12"style="height:100px;line-height:25px;">
+                    <input class="lang_radio" type="radio" name="language" id="lang_item_zh" value="zh" onclick="set_Lang('zh')"> <label for="lang_item_zh">中文</label><br>
+                    <input class="lang_radio" type="radio" name="language" id="lang_item_en" value="en" onclick="set_Lang('en')"> <label for="lang_item_en">English</label><br>
+                    <input class="lang_radio" type="radio" name="language" id="lang_item_ko" value="ko" onclick="set_Lang('ko')"> <label for="lang_item_ko">한국어</label><br>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: center">
+                <button class="dn-btn-m button" class="close" data-dismiss="modal" data-i18n-html="ib_close">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var netconfig = new NetConfig();
+    var from = "0";
+    function web_init() {
+        var tpls = ["tmpls/setting.html"];
+        from = getHashParam("f");
+        if(from != "0") from = "1";
+        var loaded = 0;
+        for(var i = 0; i < tpls.length; i ++) {
+            $.get(tpls[i], function (data) {
+                $("#TPLS").append(data);
+                loaded ++;
+                if(loaded == tpls.length) {
+                    netconfig.start();
+                }
+            });
+        }
+
+    }
+
+
+    function go_home() {
+        window.location.href = "https://" + getUrlHost() + getUrlPath() + "start.html#?f=" + from;
+    }
+
+
+    function show_language() {
+        $("#language-dial").modal("show");
+    }
+    function set_Lang(l) {
+        var curr_lang = getLocale();
+        if(curr_lang == l) return;
+        setLocale(l);
+        loadI18n();
+    }
+
+</script>
+
+</html>

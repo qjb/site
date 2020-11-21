@@ -1,0 +1,16 @@
+{
+  "name": "智能点控",
+  "start_url": "/start.html",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#3eaf7c",
+  "description": "智能点控",
+  "prefer_related_applications":false,
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

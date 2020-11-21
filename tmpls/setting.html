@@ -1,0 +1,94 @@
+
+<script id="T_SET_STEP_1" type="text/x-jsrender">
+    <div  class="setting_step_0">
+        <div class="setting_step" data-i18n-html="im_set_step1"></div>
+        <div style="text-align:right">
+        <button class="h-3 pl-1 pr-1 dn-btn btn-go-ctrl2 dn-btn-disabled" disabled data-i18n-html="ib_set_ctrl2"></button>
+        <button class="h-3 pl-1 pr-1 dn-btn btn-go-step2 dn-btn-disabled" disabled data-i18n-html="ib_set_next"></button>
+        </div>
+    </div>
+
+    <div class="setting_info_0">
+    <div class="setting_info">
+        <span data-i18n-html="im_searching" class="netconfig_device_info"></span>
+        <img class="img_loading" style="margin-left:5rem" src="images/loading.gif" />
+    </div>
+    </div>
+
+
+    <div class="setting_notify netconfig_notice_info"  data-i18n-html="im_search_notice">
+
+    </div>
+    <div style="margin-top:2rem;line-height:2rem;padding-left:5px;" class="show_down_app" >
+    <span data-i18n-html="im_failed_connect" class="msg-connect-failed"></span><br>
+    <a href="https://daniaokeji.com/app/smart-pixel.apk" data-i18n-html="ib_download">点击下载</a>
+    </div>
+</script>
+
+<script id="T_SET_STEP_2" type="text/x-jsrender">
+    <div  class="setting_step_0">
+        <div class="setting_step" data-i18n-html="im_set_step2"></div>
+        <div style="text-align:right">
+        <button class="h-3 pl-1 pr-1 dn-btn btn-go-step1" data-i18n-html="ib_set_prev"></button>
+        </div>
+    </div>
+
+    <div class="setting_info_0">
+    <div class="setting_info netconfig_device_info">
+    </div>
+    </div>
+
+    <div class="aplist-div">
+
+    <div  style="width:100%;padding:5px;">
+        <div style="border-radius:0.5rem;width:100%;border:1px solid #D8D8D8;padding:1rem;">
+            <div style="border-bottom:1px solid #cccccc;height:5rem;margin-top:1rem">
+            <div style="font-size:1rem;color:#008000;height:2rem" id="label_ap_name"></div>
+            <input type="text" id="in_ap_name" style="border:0px;width:100%;height:2.5rem">
+            </div>
+            <div style="border-bottom:1px solid #cccccc;height:5rem;margin-top:1rem" >
+            <div style="font-size:1rem;color:#008000;height:2rem"  id="label_ap_pass"></div>
+            <input type="text" id="in_ap_pass" style="border:0px;width:100%;height:2.5rem">
+            </div>
+            <div style="margin-top:2rem">
+            <button class="dn-btn dn-btn-disabled btn-add h-3 pl-2 pr-2" disabled  data-i18n-html="ib_net_config"></button>
+            <span style="padding-left:2rem;color:red" class="set_add_msg"></span>
+            </div>
+        </div>
+    </div>
+    <div  style="width:100%;padding:5px;">
+        <div style="border-radius:0.5rem;width:100%;border:1px solid #D8D8D8;padding:1rem;">
+        <div style="border-bottom:2px solid #FF0000;width:80%;height:3rem;line-height:3rem" >
+        <span data-i18n-html="im_hots"></span>
+        <img class="img_loading" style="margin-left:5rem;height:2rem" src="images/loading.gif" />
+        </div>
+        <div id="config_aplist">
+        </div>
+        </div>
+    </div>
+    </div>
+</script>
+
+<script id="T_SET_STEP_3" type="text/x-jsrender">
+    <div  class="setting_step_0">
+        <div class="setting_step"  data-i18n-html="im_set_step3"></div>
+        <div style="text-align:right">
+        <button class="h-3 pl-1 pr-1 dn-btn btn-go-step1" data-i18n-html="ib_net_config_2"></button>
+        <button class="h-3 pl-1 pr-1 dn-btn btn-go-ctrl dn-btn-disabled" disabled data-i18n-html="ib_set_ctrl">进入遥控</button></div>
+        </div>
+    </div>
+
+    <div class="setting_info_0">
+    <div class="check-result setting_info">
+    </div>
+    </div>
+    <div class="setting_notify netconfig_notice_info">
+
+    </div>
+</script>
+
+<script id="T_SET_APLIST" type="text/x-jsrender">
+    {{for scanlist}}
+    <div style="margin-top:0.1rem"><input type="checkbox" class="cb-ap-name" id="cb_{{:#index}}" n="{{:ssid}}" style="margin-right:5px"><label for="cb_{{:#index}}">{{:ssid}}</label></div>
+    {{/for}}
+</script>

@@ -1,0 +1,44 @@
+<script id="T_HOME" type="text/x-jsrender">
+<div class="row" style="margin-4rem">
+    <div class="col-xs-12" data-i18n-html="im_welcome" style="height: 20rem;
+    text-align: center;
+    padding-top: 8rem;
+    font-size: 2rem;">
+    </div>
+</div>
+</script>
+
+<script id="T_DEVICE_LIST" type="text/x-jsrender">
+
+{{for list}}
+<div style="width:100%;padding:5px">
+    <div class="dev-item row">
+        <div>
+        <div class="col-xs-3"><img src="{{:image}}"></div>
+        <div class="col-xs-9 dev-item-prop" style="padding-left:0px">
+            <div class="col-xs-12 p0"><span class="dev-title" data-i18n-html="title_name"></span>{{:name}}</div>
+            <div class="col-xs-12 p0"><span class="dev-title" data-i18n-html="title_ip"></span>{{:local}}</div>
+            <div class="col-xs-12 p0"><span class="dev-title" data-i18n-html="title_last_online" >LAST</span>{{:lasttime}}</div>
+        </div>
+        <div class="col-xs-12" style="margin-top:5px">
+            <button class='dn-btn' style="width:100%;height:4.5rem" data-i18n-html="btn_device_center" onclick="show_device('{{:sn}}')">控制中心</button>
+        </div>
+        </div>
+    </div>
+</div>
+{{/for}}
+
+<div style="width:100%;height:7rem;padding:5px;margin-top:1rem">
+<button class="dn-btn" onclick="NetConfig()" style="width:100%;height:6rem;font-size:5rem;font-weight:bold;border:#DCDCDC 1px solid" >+</button>
+</div>
+</script>
+
+
+<script id="T_NO_DEVICE" type="text/x-jsrender">
+<div style="margin:10rem 2rem 5rem 2rem;font-weight:bold;font-size:2rem;color:red;line-height:3rem;text-align:center" data-i18n-html="im_no_device" >
+</div>
+<div style="width:100%;height:7rem;padding:5px;margin-top:2rem">
+<button class="dn-btn" onclick="NetConfig()" style="width:100%;height:6rem;font-size:5rem;font-weight:bold;border:#DCDCDC 1px solid" >+</button>
+</div>
+</script>
+
